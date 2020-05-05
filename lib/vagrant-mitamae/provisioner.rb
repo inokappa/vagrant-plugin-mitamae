@@ -9,10 +9,10 @@ module VagrantPlugins
       def initialize(machine, config)
         super
         @root_path = config.root_path
-        @mitamae_path = @root_path + config.mitamae_path
-        @recipe = config.recipe
-        @json = config.json
-        @yaml = config.yaml
+        @bin_path = @root_path + config.bin_path
+        @recipe = @root_path + config.recipe unless config.recipe.nil?
+        @json = @root_path + config.json unless config.json.nil?
+        @yaml = @root_path + config.yaml unless config.yaml.nil?
         @shell = config.shell
         @log_level = config.log_level
         @dry_run = config.dry_run
@@ -22,14 +22,14 @@ module VagrantPlugins
         node_yaml = "--node-yaml=#{@yaml} " unless @yaml.nil?
         node_json = "--node-json=#{@json} " unless @json.nil?
         shell = "--shell=#{@shell} " unless @shell.nil?
-        run = "#{@mitamae_path} local " +
+        run = "sudo #{@bin_path} local " +
               "#{@recipe} " +
               "#{node_yaml}" +
               "#{node_json}" +
               "#{shell}" +
               "--log-level=INFO" 
-        run = run + '--dry-run' if @dry_run
-        run_command(run) if download_mitamae(@mitamae_path)
+        run = run + ' --dry-run' if @dry_run
+        run_command(run) if download_mitamae(@bin_path)
       end
 
       private
@@ -41,10 +41,10 @@ module VagrantPlugins
         end.compact[0]
       end
 
-      def download_mitamae(mitamae_path)
-        run = "wget --quiet #{latest_mitamae_url} -O #{mitamae_path}"
+      def download_mitamae(bin_path)
+        run = "wget --quiet #{latest_mitamae_url} -O #{bin_path}"
         run_command(run)
-        run = "chmod 755 #{mitamae_path}"
+        run = "chmod 755 #{bin_path}"
         run_command(run)
         true
       end

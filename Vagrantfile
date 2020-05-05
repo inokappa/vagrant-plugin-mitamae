@@ -1,42 +1,3 @@
-# Vagrant Provisioner Plugin for Mitamae 
-
-vagrant-plugin-mitamae is a vagrant plugin that implements [mitamae](https://github.com/itamae-kitchen/mitamae) as a provisioner.
-
-## Installation
-
-Build the gem by running.
-
-```sh
-$ rake build
-```
-
-Install the plugin by running.
-
-```sh
-$ vagrant plugin install path/to/built/gem
-```
-
-## Example Usage
-
-Write recipie.
-
-```sh
-$ cat << EOF > sample.rb
-package 'httpd' do
-  action :install
-end
-
-service 'httpd' do
-  action [:enable, :start]
-end
-EOF
-```
-
-`wget` command is required on the target host.
-
-Next, configure the provisioner in your Vagrantfile.
-
-```ruby
 Vagrant.configure('2') do |config|
   config.vm.box = 'centos/7'
 
@@ -70,12 +31,3 @@ Vagrant.configure('2') do |config|
     mitamae.dry_run = ENV['DRY_RUN']
   end
 end
-```
-
-## Contributing
-
-1. Fork it
-2. Create your feature branch (`git checkout -b my-new-feature`)
-3. Commit your changes (`git commit -am 'Add some feature'`)
-4. Push to the branch (`git push origin my-new-feature`)
-5. Create new Pull Request
