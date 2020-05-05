@@ -68,6 +68,7 @@ Vagrant.configure('2') do |config|
     # mitamae.yaml = '/node.yaml'
     mitamae.bin_path = '/mitamae'
     mitamae.dry_run = ENV['DRY_RUN']
+    mitamae.sudo = true
   end
 end
 ```

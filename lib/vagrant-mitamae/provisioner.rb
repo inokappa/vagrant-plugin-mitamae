@@ -16,6 +16,7 @@ module VagrantPlugins
         @shell = config.shell
         @log_level = config.log_level
         @dry_run = config.dry_run
+        @sudo = config.sudo
       end
 
       def provision
@@ -29,6 +30,7 @@ module VagrantPlugins
               "#{shell}" +
               "--log-level=INFO" 
         run = run + ' --dry-run' if @dry_run
+        run = 'sudo ' + run if @sudo
         run_command(run) if download_mitamae(@bin_path)
       end
 

@@ -9,6 +9,7 @@ module VagrantPlugins
       attr_accessor :shell
       attr_accessor :log_level
       attr_accessor :dry_run
+      attr_accessor :sudo
 
       def initialize
         super
@@ -19,6 +20,8 @@ module VagrantPlugins
         @yaml    = UNSET_VALUE
         @shell   = UNSET_VALUE
         @log_level = UNSET_VALUE
+        @dry_run = UNSET_VALUE
+        @sudo = UNSET_VALUE
       end
 
       def finalize!
@@ -30,6 +33,7 @@ module VagrantPlugins
         @shell = nil if @shell == UNSET_VALUE
         @log_level = 'INFO' if @log_level == UNSET_VALUE
         @dry_run = false if @dry_run == UNSET_VALUE
+        @sudo = true if @sudo == UNSET_VALUE
       end
     end
   end
